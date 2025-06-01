@@ -1,0 +1,189 @@
+1.未定义
+#define LOBYTE(x)   (*((uint8_t *)&(x)))
+#define HIBYTE(x)   (*(((uint8_t *)&(x)) + 1))
+#define LOWORD(x)   (*((uint16_t *)&(x)))
+#define HIWORD(x)   (*(((uint16_t *)&(x)) + 1))
+#define LODWORD(x)  (*((uint32_t *)&(x)))
+#define HIDWORD(x)  (*(((uint32_t *)&(x)) + 1))
+#define BYTE1(x) (*(((uint8_t *)&(x)) + 1))
+#define BYTE2(x) (*(((uint8_t *)&(x)) + 2))
+#define BYTE6(x) (*(((uint8_t *)&(x)) + 6))
+
+#define bool int
+#define _QWORD uint64_t
+#define _BOOL2 int
+
+2.对const定义的变量进行赋值
+删除const
+import sys
+
+def remove_const_from_file(input_file, output_file=None):
+    with open(input_file, 'r', encoding='utf-8') as f:
+        code = f.read()
+
+    modified_code = code.replace('const ', '').replace(' const', '')
+
+    output_file = output_file if output_file else input_file
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write(modified_code)
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("用法: python remove_const.py 输入文件 [输出文件]")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    output_file = sys.argv[2] if len(sys.argv) > 2 else None
+    remove_const_from_file(input_file, output_file)
+
+3.fclose调用错误
+替换fclose(x, y) -> fclose(x)
+import sys
+import re
+
+def fix_fclose_in_file(input_file, output_file=None):
+    with open(input_file, 'r', encoding='utf-8') as f:
+        code = f.read()
+
+    # 替换 fclose(x, y) 为 fclose(x)
+    pattern = re.compile(r'fclose\(\s*([^,]+?)\s*,\s*[^)]+\)')
+    modified_code = pattern.sub(r'fclose(\1)', code)
+
+    output_file = output_file if output_file else input_file
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write(modified_code)
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("用法: python fix_fclose.py 输入文件 [输出文件]")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    output_file = sys.argv[2] if len(sys.argv) > 2 else None
+    fix_fclose_in_file(input_file, output_file)
+ 
+4.free() 无返回值
+修正方式：
+先将代码中的free统一替换为free2
+import sys
+import re
+
+def replace_free_with_free2(input_file, output_file=None):
+    with open(input_file, 'r', encoding='utf-8') as f:
+        code = f.read()
+
+    modified_code = re.sub(r'\bfree\s*\(([^;]*)\);', r'free2(\1);', code)
+
+    output_file = output_file if output_file else input_file
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write(modified_code)
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("用法: python replace_free.py 输入文件 [输出文件]")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    output_file = sys.argv[2] if len(sys.argv) > 2 else None
+    replace_free_with_free2(input_file, output_file)
+再在c代码中重新定义free2
+int free2(void *ptr) {
+    free(ptr);
+    return 0; 
+}
+
+5. new_v5.c: In function ‘ptzptdc’:
+new_v5.c:30193:11: error: expected ‘(’ before ‘{’ token
+30193 |     __asm { jr      $t0  # loc_43CBF4 loc_43CD1C loc_43CECC loc_43CF18 loc_43CF9C }
+      |           ^
+      |           (
+new_v5.c:30193:13: error: unknown type name ‘jr’
+30193 |     __asm { jr      $t0  # loc_43CBF4 loc_43CD1C loc_43CECC loc_43CF18 loc_43CF9C }
+      |             ^~
+new_v5.c:30193:26: error: stray ‘#’ in program
+30193 |     __asm { jr      $t0  # loc_43CBF4 loc_43CD1C loc_43CECC loc_43CF18 loc_43CF9C }
+      |                          ^
+new_v5.c:30193:28: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘loc_43CBF4’
+30193 |     __asm { jr      $t0  # loc_43CBF4 loc_43CD1C loc_43CECC loc_43CF18 loc_43CF9C }
+      |                            ^~~~~~~~~~
+直接删除这行代码
+
+6.ctype相关
+import sys
+import re
+
+def replace_ctype_usages(input_file, output_file=None):
+    with open(input_file, 'r', encoding='utf-8') as f:
+        code = f.read()
+
+    # ---- 1. 替换 _ctype_b 变种 ----
+    def replace_ctype_b(match):
+        expr = match.group(1)
+        bit = match.group(2)
+        mapping = {
+            '11': f'isalpha({expr})',
+            '5':  f'isspace({expr})',
+            '4':  f'isxdigit({expr})',
+            '3':  f'isdigit({expr})',
+            '1':  f'islower({expr})'
+        }
+        return mapping.get(bit, f'/* unknown _ctype_b bit {bit} */ 0')
+
+    code = re.sub(
+        r'\(\*\(unsigned __int16\s*\*\)\s*\(\s*(.*?)\s*\+\s*_ctype_b\s*\)\s*>>\s*(\d+)\)\s*&\s*1',
+        replace_ctype_b,
+        code
+    )
+    code = re.sub(
+        r'\(\*\(_WORD\s*\*\)\s*\(\s*(.*?)\s*\+\s*_ctype_b\s*\)\s*&\s*1\s*\)',
+        lambda m: f'islower({m.group(1)})',
+        code
+    )
+
+    # ---- 2. 替换 _ctype_tolower ----
+    code = re.sub(
+        r'\*\(__?int(8|16|32)?\s*\*\)\s*\(\s*2\s*\*\s*(\*?\w+)\s*\+\s*_ctype_tolower\s*\)',
+        r'tolower(\2)',
+        code
+    )
+    code = re.sub(
+        r'\*\(_WORD\s*\*\)\s*\(\s*(.*?)\s*\+\s*_ctype_tolower\s*\)',
+        r'tolower(\1)',
+        code
+    )
+
+    # ---- 3. 替换 _ctype_toupper ----
+    code = re.sub(
+        r'\*\(__?int(8|16|32)?\s*\*\)\s*\(\s*2\s*\*\s*(\*?\w+)\s*\+\s*_ctype_toupper\s*\)',
+        r'toupper(\2)',
+        code
+    )
+    code = re.sub(
+        r'\*\(unsigned __int8\s*\*\)\s*\(\s*2\s*\*\s*(\*?\w+)\s*\+\s*_ctype_toupper\s*\)',
+        r'toupper(\1)',
+        code
+    )
+    code = re.sub(
+        r'\*\(_WORD\s*\*\)\s*\(\s*(.*?)\s*\+\s*_ctype_toupper\s*\)',
+        r'toupper(\1)',
+        code
+    )
+
+    # ---- 4. 添加 #include <ctype.h> 如果尚未包含 ----
+    if '#include <ctype.h>' not in code:
+        code = '#include <ctype.h>\n' + code
+
+    output_file = output_file if output_file else input_file
+    with open(output_file, 'w', encoding='utf-8') as f:
+        f.write(code)
+
+    print(f"[完成] 已写入: {output_file}")
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("用法: python replace_ctype.py 输入文件 [输出文件]")
+        sys.exit(1)
+
+    input_file = sys.argv[1]
+    output_file = sys.argv[2] if len(sys.argv) > 2 else None
+    replace_ctype_usages(input_file, output_file)

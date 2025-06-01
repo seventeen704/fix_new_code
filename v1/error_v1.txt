@@ -1,0 +1,144 @@
+new_v5.c: In function ‘init_proc’:
+new_v5.c:6705:3: error: too few arguments to function ‘sub_408D10’
+ 6705 |   sub_408D10();
+      |   ^~~~~~~~~~
+new_v5.c:45:6: note: declared here
+   45 | int *sub_408D10(_DWORD, _DWORD);
+      |      ^~~~~~~~~~
+new_v5.c: At top level:
+new_v5.c:6710:17: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘ftext’
+ 6710 | void __noreturn ftext()
+      |                 ^~~~~
+new_v5.c: In function ‘sub_408C40’:
+new_v5.c:6742:11: error: ‘_deregister_frame_info’ undeclared (first use in this function)
+ 6742 |     if ( &_deregister_frame_info )
+      |           ^~~~~~~~~~~~~~~~~~~~~~
+new_v5.c:6742:11: note: each undeclared identifier is reported only once for each function it appears in
+new_v5.c: At top level:
+new_v5.c:6756:10: error: conflicting types for ‘sub_408D10’; have ‘int (***(void))(unsigned int,  unsigned int)’
+ 6756 | int (*(**sub_408D10(void)))(_DWORD, _DWORD);
+      |          ^~~~~~~~~~
+new_v5.c:45:6: note: previous declaration of ‘sub_408D10’ with type ‘int *(unsigned int,  unsigned int)’
+   45 | int *sub_408D10(_DWORD, _DWORD);
+      |      ^~~~~~~~~~
+new_v5.c:6757:1: error: expected identifier or ‘(’ before ‘{’ token
+ 6757 | {
+      | ^
+new_v5.c: In function ‘websCommonWriteHeader’:
+new_v5.c:8454:18: error: ‘unk_4A2DDC’ undeclared (first use in this function); did you mean ‘unk_4A2DEC’?
+ 8454 |           v10 = &unk_4A2DDC;
+      |                  ^~~~~~~~~~
+      |                  unk_4A2DEC
+new_v5.c: In function ‘websConnError’:
+new_v5.c:8732:14: error: ‘unk_4A2DDC’ undeclared (first use in this function); did you mean ‘unk_4A2DEC’?
+ 8732 |       v19 = &unk_4A2DDC;
+      |              ^~~~~~~~~~
+      |              unk_4A2DEC
+new_v5.c: In function ‘websSetVar’:
+new_v5.c:12918:46: error: ‘unk_4A2DDC’ undeclared (first use in this function); did you mean ‘unk_4A2DEC’?
+12918 |           result = (int *)strdupWithoutNull(&unk_4A2DDC);
+      |                                              ^~~~~~~~~~
+      |                                              unk_4A2DEC
+new_v5.c: In function ‘websTestVarValue’:
+new_v5.c:13017:12: error: ‘unk_4A2DDC’ undeclared (first use in this function); did you mean ‘unk_4A2DEC’?
+13017 |     v10 = &unk_4A2DDC;
+      |            ^~~~~~~~~~
+      |            unk_4A2DEC
+new_v5.c: In function ‘websGetErrorMessage’:
+new_v5.c:14394:9: error: ‘unk_4A2DDC’ undeclared (first use in this function); did you mean ‘unk_4A2DEC’?
+14394 |   v2 = &unk_4A2DDC;
+      |         ^~~~~~~~~~
+      |         unk_4A2DEC
+new_v5.c: In function ‘websEnableAllUser’:
+new_v5.c:14542:25: error: too few arguments to function ‘strchr’
+14542 |           v4 = (_BYTE *)strchr();
+      |                         ^~~~~~
+In file included from new_v5.c:20:
+/usr/include/string.h:246:14: note: declared here
+  246 | extern char *strchr (const char *__s, int __c)
+      |              ^~~~~~
+new_v5.c: In function ‘strdupWithoutNull’:
+new_v5.c:17937:11: error: ‘unk_4A2DDC’ undeclared (first use in this function); did you mean ‘unk_4A2DEC’?
+17937 |     v1 = &unk_4A2DDC;
+      |           ^~~~~~~~~~
+      |           unk_4A2DEC
+new_v5.c: In function ‘websParseUrlInfo’:
+new_v5.c:18885:12: error: ‘unk_4A2DDC’ undeclared (first use in this function); did you mean ‘unk_4A2DEC’?
+18885 |     v18 = &unk_4A2DDC;
+      |            ^~~~~~~~~~
+      |            unk_4A2DEC
+new_v5.c: In function ‘CheckVarRange’:
+new_v5.c:22036:16: error: invalid type argument of unary ‘*’ (have ‘unsigned int’)
+22036 |           if ( *audiovol_select )
+      |                ^~~~~~~~~~~~~~~~
+new_v5.c:22059:16: error: invalid type argument of unary ‘*’ (have ‘unsigned int’)
+22059 |           if ( *audiovol_select )
+      |                ^~~~~~~~~~~~~~~~
+new_v5.c: In function ‘matrixSslReceivedData’:
+new_v5.c:41801:11: error: too few arguments to function ‘memmove’
+41801 |           memmove(v31);
+      |           ^~~~~~~
+In file included from new_v5.c:20:
+/usr/include/string.h:47:14: note: declared here
+   47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+      |              ^~~~~~~
+new_v5.c: In function ‘matrixSslProcessedData’:
+new_v5.c:41872:5: error: too few arguments to function ‘memmove’
+41872 |     memmove(a1[825]);
+      |     ^~~~~~~
+In file included from new_v5.c:20:
+/usr/include/string.h:47:14: note: declared here
+   47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+      |              ^~~~~~~
+new_v5.c: In function ‘matrixSslSentData’:
+new_v5.c:42024:9: error: too few arguments to function ‘memmove’
+42024 |         memmove(a1[826]);
+      |         ^~~~~~~
+In file included from new_v5.c:20:
+/usr/include/string.h:47:14: note: declared here
+   47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+      |              ^~~~~~~
+new_v5.c: In function ‘sub_459804’:
+new_v5.c:43871:7: error: too few arguments to function ‘memmove’
+43871 |       memmove(v20);
+      |       ^~~~~~~
+In file included from new_v5.c:20:
+/usr/include/string.h:47:14: note: declared here
+   47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+      |              ^~~~~~~
+new_v5.c: In function ‘sslEncodeResponse’:
+new_v5.c:50426:28: error: too many arguments to function ‘sslEncodeResponse’
+50426 |                     return sslEncodeResponse(a1, a2, &v326, v20, v283, v284);
+      |                            ^~~~~~~~~~~~~~~~~
+new_v5.c:48748:7: note: declared here
+48748 | int   sslEncodeResponse(int a1, int *a2, int *a3)
+      |       ^~~~~~~~~~~~~~~~~
+new_v5.c:50784:12: error: too many arguments to function ‘sslEncodeResponse’
+50784 |     return sslEncodeResponse(a1, a2, &v326, v20, v283, v284);
+      |            ^~~~~~~~~~~~~~~~~
+new_v5.c:48748:7: note: declared here
+48748 | int   sslEncodeResponse(int a1, int *a2, int *a3)
+      |       ^~~~~~~~~~~~~~~~~
+new_v5.c: In function ‘sub_4653EC’:
+new_v5.c:51920:5: error: too few arguments to function ‘memmove’
+51920 |     memmove(a3);
+      |     ^~~~~~~
+In file included from new_v5.c:20:
+/usr/include/string.h:47:14: note: declared here
+   47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+      |              ^~~~~~~
+new_v5.c: In function ‘sub_493D8C’:
+new_v5.c:81720:9: error: too few arguments to function ‘memmove’
+81720 |         memmove(v18 - v15);
+      |         ^~~~~~~
+In file included from new_v5.c:20:
+/usr/include/string.h:47:14: note: declared here
+   47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+      |              ^~~~~~~
+new_v5.c:81728:9: error: too few arguments to function ‘memmove’
+81728 |         memmove(v19 + v10 + v8);
+      |         ^~~~~~~
+In file included from new_v5.c:20:
+/usr/include/string.h:47:14: note: declared here
+   47 | extern void *memmove (void *__dest, const void *__src, size_t __n)
+      |              ^~~~~~~
