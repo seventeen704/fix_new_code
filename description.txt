@@ -1,0 +1,9 @@
+fix_node.py可完成以下任务：
+修复undeclare和unknown type name
+修复ctype问题
+修复对const变量赋值，free以及LOBYTE(x)等问题
+修复new.c函数调用参数个数与函数定义不一致问题
+将*audiovol_select修改为audiovol_select
+删除__noreturn
+注释掉所有包含 __asm { ... } 的单行汇编指令
+将int *sub_408D10(_DWORD, _DWORD);修改为 int *sub_408D10();
